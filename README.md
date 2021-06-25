@@ -68,7 +68,7 @@ Start the server (using a separate Terminal)
 The live video from camera is now available at: https://localhost:3000/
 
 ### Viewing live video on the client
-- VR Heasets: (HTC Vive Pro)
+- VR Headsets: (HTC Vive Pro)
   - Install ``Firefox Reality`` into the VR headset
   - Open ``Firefox Reality``  and go to https://server-ip-address:3000/. The ip address of the server can be found by typing ``ifconfig`` in the Terminal. At the main page, you will be asked to select the video resolution. Select ``2K`` and click on the ``Submit`` button.
 
