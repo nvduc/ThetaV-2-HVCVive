@@ -2,6 +2,10 @@
 
 
 ## Overview
+
+
+![Alt text](360LiveStreaming.PNG?raw=true "System Architecture")
+
 This system streams live video from a 360 camera to VR headsets. Video captured from the 360 camera is transcoded into ``HLS format`` using `Gstreamer`. A javascript-based HLS server then streams the transcoded video to a Web-based client. The Web-based client uses ``A-frame`` for displaying 360 video.
 
 The live latency of the system with default settings is around 4-5 seconds when both the client and server are in a same local network. Live video from the camera is captured at a resolution 1920x960 (2K) and a frame rate of 29.97fps.
