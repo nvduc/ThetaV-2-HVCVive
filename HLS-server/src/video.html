@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="aframe.min.js"></script>
+    <script src="hls.js"></script>
+    <script src="aframe-video-control.js"></script>
+    <script src="aframe-immersive-video-component.min.js"></script>
+    <title>360 Video Streaming</title>
+</head>
+<body>
+<a-scene inspector="aframe-inspector.min.js">
+   
+    <video id="video" crossorigin="anonymous" autoplay=True onplay="handleFirstPlay(event)"></video>
+    <!-- <a-assets>
+        <video id="video" autoplay onplay="handleFirstPlay(event)"></video>
+    </a-assets> -->
+
+    <a-entity distance="0.0" video-controls="src:#video"></a-entity>
+    <a-camera>
+        <a-cursor color="#FF0000"></a-cursor>
+    </a-camera>
+
+
+    <a-videosphere src="#video" rotation="0 180 0" style="background-color: antiquewhite"></a-videosphere>
+</a-scene>
+
+</body>
+</html>
+
+
+
+<script>
+    var t1 = Date.now();
+    const perfData = window.performance.timing;
+    var startUpDelay;
+
+    let video = document.getElementById('video');
+    var numberOfStall = 0;
+    var url = location.href;
+
+    var resolutionSelected = url.split('?')[1].split('&')[0].split('=')[1];
+    var videoSelected = "video1"
+    var delay = 0;
+    var plr = 0;
+    console.log('resolutionSelected');
+
+    let hasPlayed = false;
+function handleFirstPlay(event) {
+  if(hasPlayed == false) {
+    hasPlayed = true;
+    
+    let vid = event.target;
+
+    vid.onplay = null;
+
+    // Start whatever you need to do after first playback has started
+  }
+}
+
+    if(Hls.isSupported()) {
+
+        var hls = new Hls({
+            debug: true,
+            maxBufferLength: 2,
+            initialLiveManifestSize: 1
+        });
+        // hls.loadSource('/videos/'+videoSelected+'/'+resolutionSelected+'/output.m3u8');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MEDIA_ATTACHED, function() {
+            console.log('video and hls.js are now bound together !');
+              hls.loadSource('/videos/'+resolutionSelected+'/output.m3u8');
+              hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+                console.log(
+                  'manifest loaded, found ' + data.levels.length + ' quality level'
+                );
+              });
+            video.play();
+        });
+
+
+
+        // StartUpDelay = Start --> LOADED --> PARSED
+        hls.on(Hls.Events.FRAG_PARSED, function(event, data) {
+            if(data.frag.sn==0){
+                var t2 = Date.now();
+                startUpDelay = t2-perfData.navigationStart;
+                console.log("StartUpDelay : "+startUpDelay);
+            }
+        });
+
+        hls.on(Hls.Events.ERROR, function(event, data) {
+           var errorType = event.type; 
+           var errorDetails = data.details;
+            if(data.details==Hls.ErrorDetails.BUFFER_STALLED_ERROR){
+                numberOfStall=numberOfStall+1;
+                console.log("Stalling !!!");
+            }
+        });
+
+    }
+        // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+        // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+    // This is using the built-in support of the plain video element, without using hls.js.
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = '/videos/'+resolutionSelected+'/output.m3u8';
+        video.addEventListener('canplay',function() {
+            video.play();
+        });
+    }
+    let box = document.getElementById("play");
+    box.addEventListener("mouseenter",function(){
+        box.setAttribute("scale",{
+            x:3,
+            y:3,
+            z:3
+        })
+    });
+
+    box.addEventListener("click",function(){
+        box.setAttribute("color","blue");
+        video.pause();
+
+    });
+</script>

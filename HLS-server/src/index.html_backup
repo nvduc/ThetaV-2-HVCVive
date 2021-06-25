@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>360 Video Streaming</title>
+</head>
+	<body>
+		<center>
+			<h1>VR 360 Video Streaming</h1>
+			<h2> Future Internet Laboratory </h2>
+			<hr/>
+			<p>Select video</p>
+
+			<!-- <form action="video.html">
+				<label for="video">Choose a video:</label>
+				<select name="video" id="video">
+				    <option value="video1">Video 1</option>
+				    <option value="video2">Video 2</option>
+				    <option value="video3">Video 3</option>
+				    <option value="video4">Video 4</option>
+				    <option value="video5">Video 5</option>
+				</select>
+				<br><br>
+			  	<label for="resolution">Choose a resolution:</label>
+			  	<select name="resolution" id="resolution">
+				    <option value="4K">4K</option>
+				    <option value="2K">2K</option>
+				    <option value="FullHD">FullHD(1080p)</option>
+			  	</select>
+			  	<br><br>
+			  	<input type="submit" value="Submit">
+			</form> -->
+
+			<form action="video.html">
+			  <p>Please choose a video:</p>
+			  <input type="radio" id="video1" name="video" value="video1">
+			  <label for="video1">Video 1</label><br>
+			  <input type="radio" id="video2" name="video" value="video2">
+			  <label for="video2">Video 2</label><br>
+			  <input type="radio" id="video3" name="video" value="video3">
+			  <label for="video3">Video 3</label><br>
+			  <input type="radio" id="video4" name="video" value="video4">
+			  <label for="video1">Video 4</label><br>
+			  <input type="radio" id="video5" name="video" value="video5">
+			  <label for="video5">Video 5</label><br>
+
+			  <br>  
+
+			  <p>Please choose a resolution:</p>
+			  <input type="radio" id="res1" name="resolution" value="4K">
+			  <label for="res1">4K</label><br>
+			  <input type="radio" id="res2" name="resolution" value="2K">
+			  <label for="res2">2K</label><br>  
+			  <input type="radio" id="res3" name="resolution" value="FullHD">
+			  <label for="res3">FHD</label><br><br>
+
+			  <label for="delay">Delay (ms)</label><br><br>
+			  <input type="text" id="delay" name="delay"><br><br>
+
+			  <label for="plr">PLR (%)</label><br><br>
+			  <input type="text" id="plr" name="plr"><br><br>
+
+			  <input type="submit" value="Submit">
+			</form>
+		</center>
+	</body>
+</html>

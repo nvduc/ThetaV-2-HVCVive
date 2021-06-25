@@ -1,0 +1,25 @@
+{
+  "name": "360-vr-streaming",
+  "version": "1.0.0",
+  "description": "360 Video Streaming System For VR Device",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vnd1608/360-VR-Streaming.git"
+  },
+  "author": "Ngo Duc Viet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vnd1608/360-VR-Streaming/issues"
+  },
+  "homepage": "https://github.com/vnd1608/360-VR-Streaming#readme",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "hls-server": "^1.5.0"
+  }
+}

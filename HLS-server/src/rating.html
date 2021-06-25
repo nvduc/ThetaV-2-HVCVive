@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>360 Video Streaming</title>
+	<style type="text/css">
+		@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
+
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+
+		.h1_header{
+			display: block; font-size: 2em; margin-top: 0.67em; margin-bottom: 0.67em; margin-left: 0; margin-right: 0; font-weight: bold;
+		}
+
+		.h2_header{
+			display: block; font-size: 1.5em; margin-top: 0.83em; margin-bottom: 0.83em; margin-left: 0; margin-right: 0; font-weight: bold;
+		}
+		.container{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+		}
+
+		.rating-wrap{
+			max-width: 480px;
+			margin: auto;
+			padding: 15px;
+			box-shadow: 0 0 3px 0 rgba(0,0,0,.2);
+			text-align: center;
+		}
+
+		.center{
+			width: 162px; 
+			margin: auto;
+		}
+
+
+		#rating-value{	
+			width: 110px;
+			margin: 40px auto 0;
+			padding: 10px 5px;
+			text-align: center;
+			box-shadow: inset 0 0 2px 1px rgba(46,204,113,.2);
+		}
+
+		/*styling star rating*/
+		.rating{
+			border: none;
+			float: left;
+		}
+
+		.rating > input{
+			display: none;
+		}
+
+		.rating > label:before{
+			content: '\f005';
+			font-family: FontAwesome;
+			margin: 5px;
+			font-size: 1.5rem;
+			display: inline-block;
+			cursor: pointer;
+		}
+
+		.rating > .half:before{
+			content: '\f089';
+			position: absolute;
+			cursor: pointer;
+		}
+
+
+		.rating > label{
+			color: #ddd;
+			float: right;
+			cursor: pointer;
+		}
+
+		.rating > input:checked ~ label,
+		.rating:not(:checked) > label:hover, 
+		.rating:not(:checked) > label:hover ~ label{
+			color: #2ce679;
+		}
+
+		.rating > input:checked + label:hover,
+		.rating > input:checked ~ label:hover,
+		.rating > label:hover ~ input:checked ~ label,
+		.rating > input:checked ~ label:hover ~ label{
+			color: #2ddc76;
+		}
+	</style>
+</head>
+<body>
+	<center>
+		<h1 class="h1_header">VR 360 Video Streaming</h1>
+		<h2 class="h2_header"> Future Internet Laboratory </h2>
+		<hr/>
+		<br>
+		<p>Rate your video experience</p>
+		<br>
+		<div class="container">
+			<div class="rating-wrap">
+				<h2>Star Rating</h2>
+				<div class="center">
+					<fieldset class="rating">
+						<input type="radio" id="star5" name="rating" value="5"/><label for="star5" class="full" title="Awesome"></label>
+						<input type="radio" id="star4.5" name="rating" value="4.5"/><label for="star4.5" class="half"></label>
+						<input type="radio" id="star4" name="rating" value="4"/><label for="star4" class="full"></label>
+						<input type="radio" id="star3.5" name="rating" value="3.5"/><label for="star3.5" class="half"></label>
+						<input type="radio" id="star3" name="rating" value="3"/><label for="star3" class="full"></label>
+						<input type="radio" id="star2.5" name="rating" value="2.5"/><label for="star2.5" class="half"></label>
+						<input type="radio" id="star2" name="rating" value="2"/><label for="star2" class="full"></label>
+						<input type="radio" id="star1.5" name="rating" value="1.5"/><label for="star1.5" class="half"></label>
+						<input type="radio" id="star1" name="rating" value="1"/><label for="star1" class="full"></label>
+						<input type="radio" id="star0.5" name="rating" value="0.5"/><label for="star0.5" class="half"></label>
+					</fieldset>
+				</div>
+				<h4 id="rating-value"></h4>
+				<br>
+				<button onclick="send()"> Submit </button>
+			</div>
+		</div>
+	</center>
+	<script>
+		let star = document.querySelectorAll('input');
+		let showValue = document.querySelector('#rating-value');
+		var MOS;
+
+		for (let i = 0; i < star.length; i++) {
+			star[i].addEventListener('click', function() {
+				i = this.value;
+				MOS = i;
+				showValue.innerHTML = i + " out of 5";
+			});
+		}
+
+		var url = location.href;
+		var video = url.split('?')[1].split('&')[0].split('=')[1];
+    	var resolution = url.split('?')[1].split('&')[1].split('=')[1];
+    	var delay = url.split('?')[1].split('&')[2].split('=')[1];
+    	var plr = url.split('?')[1].split('&')[3].split('=')[1];
+    	var startUpDelay = url.split('?')[1].split('&')[4].split('=')[1];
+    	var numberOfStall = url.split('?')[1].split('&')[5].split('=')[1];
+		function send(){
+			const data = { video: video, resolution: resolution, delay: delay, plr: plr, startUpDelay: startUpDelay, numberOfStall: numberOfStall, MOS: MOS};
+
+			// fetch('/', {
+			//   method: 'POST', // or 'PUT'
+			//   headers: {
+			//     'Content-Type': 'application/json',
+			//   },
+			//   body: JSON.stringify(data)
+			// });
+			// location.replace('/');
+
+			var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+			xmlhttp.open("POST", "/");
+			xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			xmlhttp.send(JSON.stringify(data));
+			xmlhttp.onreadystatechange = function () {
+		    if(xmlhttp.readyState == 1) {
+		        console.log('Request started.');
+		    }
+		    
+		    if(xmlhttp.readyState == 2) {
+		        console.log('Headers received.');
+		    }
+		    
+		    if (xmlhttp.readyState == 3) {
+		        console.log('Data loading..!');
+		    }
+		    if (xmlhttp.readyState == 4) {
+		        console.log('Request ended.');
+		        location.replace('/');
+		    }
+		};
+		}
+	</script>
+</body>
+</html>
