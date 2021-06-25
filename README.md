@@ -4,7 +4,7 @@
 ## Overview
 
 
-![Alt text](360LiveStreaming.PNG?raw=true "System Architecture")
+![Alt text](360LiveStreaming.png?raw=true "System Architecture")
 
 This system streams live video from a 360 camera to VR headsets. Video captured from the 360 camera is transcoded into ``HLS format`` using `Gstreamer`. A javascript-based HLS server then streams the transcoded video to a Web-based client. The Web-based client uses ``A-frame`` for displaying 360 video.
 
